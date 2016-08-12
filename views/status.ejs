@@ -37,9 +37,17 @@
 			for(var i=0; i < data.length; i++) {
 				// var color = data[i].Action=='Connect' ? 'green':'red';
 				var color = data[i].Light <=20 ? 'green':'red';
+				var room;
+				if (data[i].Light<=20){
+				room = "Available";
+				}
+				else
+				{
+				room = "Occupied";
+				}
 				// var color = data[i].light <=20 ? 'red':'green';
 				
-				innerString +="<tr><td>"+data[i].type +"</td><td>"+ data[i].id +"</td><td style='background-color:"+ color+"'>"+data[i].Light+"</td></tr>";
+				innerString +="<tr><td>"+data[i].type +"</td><td>"+ data[i].id +"</td><td style='background-color:"+ color+"'>"+room+"</td></tr>";
 			} 
 			$('#t01').html(innerString);
 			//console.log($('#t01').html());
