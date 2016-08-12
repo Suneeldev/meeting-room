@@ -34,8 +34,8 @@ router.get('/', function(req, res, next) {
 			payload = JSON.parse(payload);
 			obj.id = deviceId;
 			obj.type = deviceType;
-			//obj.light = payload.d.light;
-			obj.light = payload.d.temperature;
+			obj.light = payload.d.light;
+			//obj.light = payload.d.temperature;
 
 			// console.log("Meeting room "+deviceId+" on Floor "+deviceType+" is "+obj.d.light+"\"");
 			console.log("Meeting room "+deviceId+" on Floor "+deviceType+" is "+obj+"\"");
