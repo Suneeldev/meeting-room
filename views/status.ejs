@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
+
+
+	<script>
+	/* When the user clicks on the button,
+	toggle between hiding and showing the dropdown content */
+	function myFunction() {
+		document.getElementById("myDropdown").classList.toggle("show");
+	}
+
+	// Close the dropdown if the user clicks outside of it
+	window.onclick = function(event) {
+	  if (!event.target.matches('.dropbtn')) {
+
+		var dropdowns = document.getElementsByClassName("dropdown-content");
+		var i;
+		for (i = 0; i < dropdowns.length; i++) {
+		  var openDropdown = dropdowns[i];
+		  if (openDropdown.classList.contains('show')) {
+			openDropdown.classList.remove('show');
+		  }
+		}
+	  }
+	}
+	</script>
+	
+	<script>
+	/* Refresh the Status Page */
+	function refresh() {
+		
+		$.get("/status/data", function(data, status){
+			var innerString = "<tr><th>Floor</th><th>Meeting Room</th><th>Availability Status</th></tr>";
+			
+			for(var i=0; i < data.length; i++) {
+				// var color = data[i].Action=='Connect' ? 'green':'red';
+				var color = data[i].Light <=20 ? 'green':'red';
+				// var color = data[i].light <=20 ? 'red':'green';
+				
+				innerString +="<tr><td>"+data[i].type +"</td><td>"+ data[i].id +"</td><td style='background-color:"+ color+"'>"+data[i].Light+"</td></tr>";
+			} 
+			$('#t01').html(innerString);
+			//console.log($('#t01').html());
+		});
+	}
+	 refresh();
+	setInterval( function () {
+		refresh();
+	}, 1000 );
+	function getList(){
+		$.get("/status/type", function(types, status){
+				var innerString = "";
+				for(var i=0; i < types.length; i++)
+					innerString +="<a href='/status?type="+ types[i] +"\'>" +types[i]+"</a>";
+				$('#myDropdown').html(innerString);
+			});
+	}
+	getList();
+	setInterval( function () {
+		getList();
+	}, 360000 );
+	</script>
+
+	</script>
+
+  <!-- <meta http-equiv="refresh" content="30" > -->
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+		<style>
+		table {
+			width:100%;
+		}
+		table, th, td {
+			border: 1px solid black;
+			border-collapse: collapse;
+		}
+		th, td {
+			padding: 5px;
+			text-align: left;
+		}
+		table#t01 tr:nth-child(even) {
+			background-color: #eee;
+		}
+		table#t01 tr:nth-child(odd) {
+		   background-color: #fff;
+		}
+		table#t01 th {
+			background-color: black;
+			color: white;
+		}
+		</style>
+
+		<style>
+			.dropbtn {
+				background-color: #4CAF50;
+				color: white;
+				padding: 16px;
+				font-size: 16px;
+				border: none;
+				cursor: pointer;
+			}
+
+			.dropbtn:hover, .dropbtn:focus {
+				background-color: #3e8e41;
+			}
+
+			.dropdown {
+				position: relative;
+				display: inline-block;
+			}
+
+			.dropdown-content {
+				display: none;
+				position: absolute;
+				background-color: #f9f9f9;
+				min-width: 160px;
+				overflow: auto;
+				box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			}
+
+			.dropdown-content a {
+				color: black;
+				padding: 12px 16px;
+				text-decoration: none;
+				display: block;
+			}
+
+			.dropdown a:hover {background-color: #f1f1f1}
+
+			.show {display:block;}
+		</style>
+
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <h2>Meeting Room Dashboard</h2>
+
+	<div class="dropdown">
+	  <button onclick="myFunction()" class="dropbtn">Choose Floor</button>
+	  <div id="myDropdown" class="dropdown-content">
+		
+	  </div>
+	</div>
+
+	<p></p>
+	<p></p>
+	<p></p>
+	<p></p>
+
+	<form action="/status">
+	  <b>Refine Your Search</b>: Meeting Room Number <input type="text" name="id" value="" required> 	<input type="submit" value="Submit" onclick="refresh()"> </a>
+	</form>
+
+   	<p></p>
+	<p></p>
+	<p></p>
+	<p></p>
+
+	<table id="t01"></table>
+  </body>
+</html>
