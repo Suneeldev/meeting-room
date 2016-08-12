@@ -61,7 +61,7 @@ router.get('/', function(req, res, next) {
 		});
 	 }
 	 else{
-		res.render('user', { title: 'Diamler Reservation Application'});//,data,selected:req.query.type});
+		res.render('user', { title: 'Reservation Application'});//,data,selected:req.query.type});
 	 }
 
 });
@@ -82,7 +82,7 @@ router.get('/status', function(req, res, next) {
 		}
 
 		appClient.subscribeToDeviceEvents(current_type||"+",current_id||"+","+","json");
-		res.render('status', { title: 'Diamler Reservation Application' ,data,types,selected:current_type});
+		res.render('status', { title: 'Reservation Application' ,data,types,selected:current_type});
 	}
 	else{
 		res.redirect('/');
